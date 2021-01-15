@@ -1,0 +1,31 @@
+.leftNav {
+  background-color: #0387cd;
+  min-height: 100vh;
+}
+.leftNav h3 {
+  color: white;
+}
+.leftNav li {
+  color: white;
+}
+.listHeader {
+  font-weight: bold;
+}
+.listItem {
+  margin-top: 10px;
+}
+li {
+  list-style: none;
+  padding: 5px 4px 6px 7px;
+  margin-bottom: 7px; /* 3px margin plus 1px for the border */
+  position: relative;
+}
+.totalText {
+font-size: 20;
+  font-weight: bold;
+}
+#totalAmount {
+font-size: 40;
+font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}

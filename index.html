@@ -1,0 +1,269 @@
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta content="utf-8" http-equiv="encoding" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script src="NTCTable.js"></script>
+    <link rel="stylesheet" href="NTCUIKit.css" />
+    <link rel="stylesheet" href="index.css" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+  </head>
+  <body>
+    <div class="container-fluid h-100 inline-block">
+      <div class="row">
+        <div class="col-3 p-5 leftNav">
+          <h3>Sipariş Detay</h3>
+          <ul>
+            <li>
+              <span class="listHeader"> Firma Adı </span>
+              <p>Halil Pazarlama</p>
+            </li>
+            <li>
+              <span class="listHeader">Adres </span>
+              <p>
+                Kozyatağı Mahallesi, Marmara Ca, Apt. No: 7 Kadıköy/İstanbul
+              </p>
+            </li>
+            <li>
+              <span class="listHeader">Telefon </span>
+              <p>0090 021 6 123 4567</p>
+            </li>
+            <li>
+              <span class="listHeader"> e-Posta</span>
+              <p>kapinizda®halilpazarlama.com</p>
+            </li>
+            <li>
+              <span class="listHeader"> Ünvan</span>
+              <p>Halil Pazarlama İnş. Tah. Turz.</p>
+            </li>
+            <li>
+              <span class="listHeader"> Fatura adresi</span>
+              <p>
+                Kozyatağı Mahallesi, Marmara Ca, Apt. No: 7 Kadıköy/İstanbul
+              </p>
+            </li>
+            <li>
+              <span class="listHeader">Vergi dairesi </span>
+              <p>Büyük mükellefler vd.</p>
+            </li>
+            <li>
+              <span class="listHeader">Vergi no </span>
+              <p>123456789012</p>
+            </li>
+          </ul>
+        </div>
+        <div class="col-9 p-5">
+          <div class="d-flex flex-column">
+            <div id="tablePart" class="p-2"></div>
+            <div class="p-2">
+              <span class="totalText"> Toplam </span>
+              <p id="totalAmount"></p>
+              <p id="textTotal"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "TRY",
+  });
+  function calculateTotal(data) {
+    let total = 0;
+    data.forEach((item) => {
+      total += item.productPrice * item.qnty;
+    });
+    return total;
+  }
+  function formatPrice(price) {
+    return formatter.format(price).replace("TRY", "");
+  }
+  const data = [
+    {
+        productid: "LT-1449506",
+        productName: "Super Outfit",
+        productPrice: 300.45,
+        qnty: 10,
+      },
+      {
+        productid: "LT-4523632",
+        productName: "Rocket-Powered Roller Skates",
+        productPrice: 11367.99,
+        qnty: 4,
+      },
+      {
+        productid: "TM-2026045",
+        productName: "Giant Kite Kit",
+        productPrice: 1099.9,
+        qnty: 12,
+      },
+      {
+        productid: "LT-1990790",
+        productName: "Bird Seed",
+        productPrice: 5.9,
+        qnty: 55,
+      },
+      {
+        productid: "TLTS-8002604",
+        productName: "Artificial Rock",
+        productPrice: 123.99,
+        qnty: 24,
+      },
+      {
+        productid: "TM-6792415",
+        productName: "Giant Rubber Band V1",
+        productPrice: 44.9,
+        qnty: 5000,
+      },
+      {
+        productid: "LT-8163469",
+        productName: "Jet Motor",
+        productPrice: 99999.99,
+        qnty: 2,
+      },
+    ];
+    const modifiedData = {first:data};
+  const headers = [
+    "Ürün kodu",
+    "Ürün Adı",
+    "Birim fiyat(TL)",
+    "Adet",
+    "Fiyat(TL)",
+  ];
+  const completeData = modifiedData.first.map(
+    ({ productPrice, qnty, ...restItem }) => ({
+      ...restItem,
+      productPrice: formatPrice(productPrice),
+      qnty,
+      totalPrice: formatPrice(productPrice * qnty),
+    })
+  );
+  function moneyToText(n) {
+    var string = n.toString(),
+      units,
+      tens,
+      scales,
+      start,
+      end,
+      chunks,
+      chunksLen,
+      chunk,
+      ints,
+      i,
+      word,
+      words,
+
+    string = string.replace(/[, ]/g, "");
+    if (parseInt(string) === 0) {
+      return "zero";
+    }
+    units = [
+      "",
+      "bir",
+      "iki",
+      "üç",
+      "dört",
+      "beş",
+      "altı",
+      "yedi",
+      "sekiz",
+      "dokuz",
+      "on",
+      "on bir",
+      "on iki",
+      "on üç",
+      "on dört",
+      "on beş",
+      "on altı",
+      "on yedi",
+      "on sekiz",
+      "on dokuz",
+    ];
+
+    tens = [
+      "",
+      "",
+      "yirmi",
+      "otuz",
+      "kırk",
+      "elli",
+      "atmış",
+      "yetmiş",
+      "seksen",
+      "doksan",
+    ];
+    scales = [
+      "",
+      "bin",
+      "milyon",
+      "milyar",
+      "trilyon",
+      "katiriliyon",
+    ];
+    start = string.length;
+    chunks = [];
+    while (start > 0) {
+      end = start;
+      chunks.push(string.slice((start = Math.max(0, start - 3)), end));
+    }
+    chunksLen = chunks.length;
+    if (chunksLen > scales.length) {
+      return "";
+    }
+    words = [];
+    for (i = 0; i < chunksLen; i++) {
+      chunk = parseInt(chunks[i]);
+
+      if (chunk) {
+        ints = chunks[i].split("").reverse().map(parseFloat);
+
+        if (ints[1] === 1) {
+          ints[0] += 10;
+        }
+
+        if ((word = scales[i])) {
+            words.push(word);
+        }
+
+        if ((word = units[ints[0]])) {
+          words.push(word);
+        }
+
+        if ((word = tens[ints[1]])) {
+          words.push(word);
+        }
+
+        if ((word = units[ints[2]])) {
+          word != 'bir' ? words.push(word + " yüz") : words.push("yüz");
+        }
+      }
+    }
+
+    return words.reverse().join(" ");
+  }
+  const totalPrice = calculateTotal(modifiedData.first);
+  const result = { "": completeData };
+  const table = new NTCTable(result, headers);
+  const firstPart =
+  document.getElementById(
+    "tablePart"
+  ).innerHTML = table.generateInnerHtmlCode();
+  const totalTextFirst = moneyToText(formatPrice(totalPrice).split('.')[0])
+  const totalTextAfterZero = moneyToText(formatPrice(totalPrice).split('.')[1]) ? moneyToText(formatPrice(totalPrice).split('.')[1]) + ' kuruş' : '';
+  const textTotal = 'Yalnız ' + totalTextFirst + ' ' + totalTextAfterZero;
+  document.getElementById("totalAmount").innerHTML = formatPrice(totalPrice) + " TL";
+  document.getElementById("textTotal").innerHTML = textTotal
+</script>
